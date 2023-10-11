@@ -30,15 +30,18 @@ namespace SingaraAPI.Controllers
             });
             return Ok(item.Value);
         }
-
+        [HttpPut]
+        [Route("api/home/{id}")]
         public IHttpActionResult Put(int id, [FromBody] Item item)
         {
-            if (id < 0 || id >= data.Count || string.IsNullOrEmpty(item.Value))
+            Item obj = data.Find(c => c.Id == id);
+            if (string.IsNullOrEmpty(obj?.Value))
                 return NotFound();
-            data.Find(c => c.Id == id).Value = item.Value;
+            obj.Value = item.Value;
             return Ok();
         }
-
+        [HttpDelete]
+        [Route("api/home/{id}")]
         public IHttpActionResult Delete(int id)
         {
             Item obj = data.Find(c => c.Id == id);

@@ -1,5 +1,4 @@
-﻿//using Microsoft.AspNetCore.Cors;
-using System.Net.Http.Formatting;
+﻿using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -10,7 +9,7 @@ namespace SingaraAPI
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            var cors = new EnableCorsAttribute("*", "*", "*"); // Allow requests from any origin, any header, and any method (not recommended for production)
+            var cors = new EnableCorsAttribute("https://dev1.singara.org", "*", "GET, POST, PUT, DELETE"); // Allow requests from any origin, any header, and any method (not recommended for production)
             config.EnableCors(cors);
             // Web API routes
             config.Formatters.Clear(); // Remove other formatters
