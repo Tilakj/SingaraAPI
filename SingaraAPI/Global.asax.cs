@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using SingaraAPI.App_Data;
 using System.Web.Http;
-using System.Web.Routing;
+using Unity;
+using Unity.Injection;
+using Unity.WebApi;
 
 namespace SingaraAPI
 {
@@ -12,6 +11,15 @@ namespace SingaraAPI
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            RegisterDependencies();
+        }
+        private void RegisterDependencies()
+        {
+            var container = new UnityContainer();
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["singara"].ConnectionString;
+            container.RegisterType<IDataAccess, DataAccess>(new InjectionConstructor(connectionString));
+
+            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }
 }
