@@ -3,20 +3,21 @@ using System.Web.Http;
 
 namespace SingaraAPI.Controllers
 {
-    public class CommitteeController : ApiController
+    public class PuraskaraController : ApiController
     {
         private readonly IDataAccess dataAccess;
 
-        public CommitteeController(IDataAccess dataAccess)
+        public PuraskaraController(IDataAccess dataAccess)
         {
             this.dataAccess = dataAccess;
         }
         [HttpGet]
-        public IHttpActionResult GetCommittees()
+        public IHttpActionResult GetPuraskara()
         {
-            string query = "select * from singara1_dev.t_committee";
+            string query = "SELECT year, name, category,field FROM singara1_dev.t_puraskara where is_deleted=0;";
             var result = dataAccess.ExecuteQuery(query);
             return Ok(result);
         }
+     
     }
 }

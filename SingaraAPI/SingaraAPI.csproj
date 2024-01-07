@@ -190,8 +190,9 @@
     <Compile Include="App_Data\IDataAccess.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\PuraskaraController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\AwardController.cs" />
+    <Compile Include="Controllers\CommitteeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="App_Data\DataAccess.cs" />
     <Compile Include="Global.asax.cs">
