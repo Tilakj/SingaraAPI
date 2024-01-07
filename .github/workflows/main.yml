@@ -1,0 +1,54 @@
+name: .NET Framework 4.8 CI/CD
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET Framework
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 4.8.x
+
+    - name: Restore dependencies
+      run: nuget restore
+
+    - name: Build
+      run: msbuild /p:Configuration=Release
+
+    - name: Publish artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: dotnet-artifacts
+        path: ./YourOutputFolder  # Update this to the actual output folder
+
+  deploy:
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: dotnet-artifacts
+        path: ${{ github.workspace }}/YourDownloadFolder  # Use a workspace-relative path
+
+    - name: FTP Deploy
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ${{ github.workspace }}/YourDownloadFolder  # Use a workspace-relative path
+        remote-dir: /Test
